@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>FAQ Support Chat</title>
+  </head>
+  <body>
+    <h1>Ask a question</h1>
+    <textarea
+      id="question"
+      rows="4"
+      cols="50"
+      placeholder="Type your question here..."
+    ></textarea
+    ><br />
+    <button onclick="askQuestion()">Ask</button>
+
+    <h2>Answer:</h2>
+    <pre id="answer"></pre>
+    <script>
+      async function askQuestion() {
+        const question = document.getElementById("question").value.trim();
+        if (!question) {
+          alert("Please type a question");
+          retun;
+        }
+        const response = await fetch("/api/support", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question }),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          document.getElementById("answer").textContent =
+            data.answer || "No answer found";
+        } else {
+          const err = await response.json();
+          document.getElementById("answer").textContent =
+            "Error" + (err.error || "Unknown error");
+        }
+      }
+    </script>
+  </body>
+</html>

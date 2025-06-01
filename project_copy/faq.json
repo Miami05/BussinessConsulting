@@ -1,0 +1,42 @@
+[
+  {
+    "question": "What is BizBuddy?",
+    "answer": "BizBuddy is a platform that helps entrepreneurs manage business operations, from finances to customer engagement."
+  },
+  {
+    "question": "How do I reset my password?",
+    "answer": "Go to Settings > Account > Reset Password, then follow the instructions sent to your email."
+  },
+  {
+    "question": "How can I contact customer support?",
+    "answer": "You can contact support by emailing support@bizbuddy.com or using the live chat in the Help section."
+  },
+  {
+    "question": "Is there a mobile app for BizBuddy?",
+    "answer": "Yes, BizBuddy is available on both Android and iOS. You can download it from the Play Store or App Store."
+  },
+  {
+    "question": "How do I add a new team member?",
+    "answer": "Navigate to Settings > Team Management > Add Member. Enter their email and assign a role."
+  },
+  {
+    "question": "Can I integrate BizBuddy with third-party tools?",
+    "answer": "Yes, BizBuddy supports integrations with tools like Slack, Google Calendar, and QuickBooks."
+  },
+  {
+    "question": "How secure is my data on BizBuddy?",
+    "answer": "We use industry-standard encryption and follow GDPR compliance to keep your data secure."
+  },
+  {
+    "question": "How do I delete my account?",
+    "answer": "To delete your account, go to Settings > Account > Delete Account. Note: this action is irreversible."
+  },
+  {
+    "question": "What payment methods are accepted?",
+    "answer": "We accept Visa, MasterCard, PayPal, and bank transfers for annual subscriptions."
+  },
+  {
+    "question": "Can I upgrade or downgrade my subscription plan?",
+    "answer": "Yes, go to Billing Settings and select 'Change Plan' to upgrade or downgrade your subscription."
+  }
+]

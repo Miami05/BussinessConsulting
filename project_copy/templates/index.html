@@ -1,0 +1,57 @@
+<!DOCTYPE <html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ project_name }}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Welcome to Your {{ project_name }}</h1>
+      <p>
+        Tired of searching for startup advice, ideas, or experts? BizBuddy
+        connects you with custom answers and founder-friendly recommendations
+        instantly in one chat.
+      </p>
+      <textarea
+        id="prompt"
+        placeholder="Describe the problem or ask for an idea..."
+        onkeydown="handleKey(event)"
+      ></textarea>
+      <button onclick="askAI()">Generate Idea</button>
+      <div id="response"></div>
+    </main>
+    <script>
+      async function askAI() {
+        const prompt = document.getElementById("prompt").value;
+        const responsiveDiv = document.getElementById("response");
+        if (!prompt.trim()) {
+          responsiveDiv.innerText = "Please enter a prompt first!";
+          return;
+        }
+        responsiveDiv.innerText = "Thinking...";
+        try {
+          const res = await fetch("/api/ask", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt }),
+          });
+          const data = await res.json();
+          responsiveDiv.innerText = data.answer || data.error;
+        } catch (error) {
+          responsiveDiv.innerText = "An error occurred. Please try again later";
+        }
+      }
+      function handleKey(event) {
+        if (event.key == "Enter" && !event.shiftKey) {
+          event.preventDefault();
+          askAI();
+        }
+      }
+    </script>
+  </body>
+</html>
