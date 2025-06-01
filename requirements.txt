@@ -1,0 +1,7 @@
+Flask
+flasgger
+python-dotenv
+cohere
+prometheus_flask_exporter
+prometheus_client
+pandas

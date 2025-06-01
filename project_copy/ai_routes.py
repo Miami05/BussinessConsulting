@@ -9,7 +9,6 @@ load_dotenv()
 ai_bp = Blueprint("ai", __name__)
 co = cohere.Client(os.getenv("COHERE_API_KEY"))
 
-
 def init_db():
     conn = sqlite3.connect("cache.db")
     c = conn.cursor()
@@ -54,6 +53,7 @@ def ask():
     cached = get_cached_answer(prompt)
     if cached:
         return jsonify({"answer": cached, "cached": True})
+    print("not cached")
     try:
         response = co.generate(model="command", prompt=prompt, max_tokens=200)
         answer = response.generations[0].text.strip()
