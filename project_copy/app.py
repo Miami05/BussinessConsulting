@@ -3,6 +3,7 @@ import cohere
 import os
 from flask import Flask, json, request, render_template, jsonify
 from dotenv import load_dotenv
+
 load_dotenv()
 from flasgger import Swagger
 from prometheus_flask_exporter import PrometheusMetrics
@@ -18,7 +19,7 @@ app.register_blueprint(ai_bp)
 
 swagger = Swagger(app)
 
-# Enhanced metrics setup
+# Enhanced metrics setup - Force enable metrics
 metrics = PrometheusMetrics(app)
 
 # Add custom metrics
@@ -30,6 +31,8 @@ cohere_api_duration = Histogram(
     "cohere_api_duration_seconds", "Time spent calling Cohere API"
 )
 
+# Set up logging
+logging.basicConfig(level=logging.INFO)
 app.logger.info("Flask started")
 
 
@@ -38,41 +41,15 @@ def index():
     return render_template("index.html", project_name="BizBuddy")
 
 
+# @app.route("/api/ask")
+# def ask():
+# ai_bp.ask()
+
+
 @app.route("/faq")
 def faq():
     return render_template("faq.html")
 
-
-# Custom metric for tracking AI requests
-@app.before_request
-def before_request():
-    if request.endpoint:
-        api_calls_counter.labels(method=request.method, endpoint=request.endpoint).inc()
-
-
-# Update your cohere_client function to include metrics:
-def cohere_client(prompt):
-    cohere_api_calls.inc()
-    with cohere_api_duration.time():
-        try:
-            response = client.chat(
-                model="command-light",
-                message=prompt,
-                max_tokens=50,
-                temperature=0.7,
-            )
-            text = response.text.strip()
-            logging.info(f"Cohere API is called with prompt: {prompt}")
-            logging.info(f"Cohere response: {text}")
-            return text
-        except Exception as e:
-            logging.error(f"Error calling Cohere API: {e}")
-            return None
-
-
-@app.route("/api/ask", methods=["POST"])
-def ask():
-    ai_bp.ask()
 
 @app.route("/label-3d")
 def label():
@@ -84,5 +61,17 @@ def hello():
     return jsonify({"mssg": "Hello, founders!"})
 
 
+# Debug endpoint to check metrics
+@app.route("/debug/metrics")
+def debug_metrics():
+    return jsonify(
+        {
+            "metrics_enabled": hasattr(app, "prometheus_metrics"),
+            "debug_mode": app.debug,
+            "flask_env": os.getenv("FLASK_ENV", "development"),
+        }
+    )
+
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)  # Allow container access
+    app.run(host="0.0.0.0", port=5000, debug=True)

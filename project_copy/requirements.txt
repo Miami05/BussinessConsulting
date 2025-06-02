@@ -1,0 +1,11 @@
+Flask
+flasgger
+python-dotenv
+cohere
+prometheus_flask_exporter
+prometheus_client
+pandas
+Werkzeug==2.3.7
+numpy==1.24.3
+trimesh==3.23.5
+scikit-learn==1.3
